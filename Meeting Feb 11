@@ -1,0 +1,7 @@
+Feb 11 Meeting
+Start time 12pm
+End time 3pm
+
+Began to write out the code for parsing the arguments passed into the "csv" executable.  Worked on parsing for the arguments (flags) 
+and thinking about how to organize the data from the file to make returning values easiest given which flags are present.  C prgramming
+kinda sucks.  
