@@ -1,2 +1,3 @@
 Worked on debugging the String parser making sure that the subsrting function gets the right number of characters.  
-Supratik tried using various debuggers to solve the problem.  
+Supratik tried using various debuggers to solve the problem.  Most of the code is complete, we should be ready to put it all together
+soon for submission.
