@@ -4,7 +4,7 @@
 
 struct Record {
 
-	double value;
+	float value;
 	int ref_date;
 	char *geo, *viewer, *content, *programme, *vector, *coordinate;
 
@@ -14,7 +14,7 @@ char* getSubstring(int start, int end, char* source) {
 	//get size for this substring
 	int size = end - start;
 	//allocate memory for substring
-	char* substr = malloc((end - start+1) * sizeof(*substr));
+	char* substr = malloc((end - start +1) * sizeof(*substr));
 	//start to fill it up
 	int index = 0;
 
@@ -77,8 +77,8 @@ void addFieldToRecord(int count, char* field, struct Record* element) {
 	//value
 	else if (count == 7) {
 		//convert string to double for value
-		double val;
-		sscanf(field, "%lf", &val);
+		float val;
+		sscanf(field, "%f", &val);
 
 		element->value = val;
 	}
@@ -96,31 +96,43 @@ struct Record* lineToRecord(char* line, const size_t length) {
 
 	while (start < length) {
 
+		//is the current character is ',' get the string until then
 		if (line[start] == ',') {
 			char* field = getSubstring(index, start, line);
 			index = start + 1;
 
 			addFieldToRecord(count, field, element);
-
-			//++start;
 			++count;
-		}
 
-		else if (line[start] == '\"') {
-			start = findMatchingQuote(start + 1, line);
-			char* field = getSubstring(index, start+1, line);
+			//if the current character is now '\"' get the entire string
+			while (index<length && line[index] == '\"') {
+				start = findMatchingQuote(index + 1, line);
+				char* inner_field = getSubstring(index, start + 1, line);
 
-			index = start + 2;
+				index = start + 1;
+				if (index < length && line[index] == ',')
+					++index;
 
-			addFieldToRecord(count, field, element);
+				addFieldToRecord(count, inner_field, element);
 
-			//++start;
-			++count;
+				++count;
+				start = index + 1;
+
+				//start already advanced to next field
+				continue;
+			}
+
+
 		}
 
 		++start;
 	}
 
+	//handle final field
+	char* field = getSubstring(index, start, line);
+	addFieldToRecord(count, field, element);
+
+	//return the pointer to the struct
 	return element;
 }
 
@@ -145,14 +157,14 @@ void freeRecord(struct Record* element) {
 //temp function to print all the fields of a records
 void printRecord(struct Record* element) {
 
-	printf("%d\n%s\n%s\n%s\n%s\n%s\n%s\n%lf\n", element->ref_date,
+	printf("%d\n%s\n%s\n%s\n%s\n%s\n%s\n%f\n\n", element->ref_date,
 		element->geo, element->viewer, element->content, element->programme,
 		element->vector, element->coordinate, element->value);
 }
 
 int main(int argc, char** argv) {
 
-	char* line = "2004,Canada,\"Total, all persons two years and older\",\"Total, all television programmes, Canadian and foreign\",News and public affairs,v21419927,1.1.1.2,24.4";
+	char* line = "2004,Canada,\"Francophones, two years and older\",\"Total, all television programmes, Canadian and foreign\",Social and/or recreational instruction,v21420008,1.3.1.5,0.7";
 
 	struct Record* element = lineToRecord(line, strlen(line));
 
@@ -160,9 +172,14 @@ int main(int argc, char** argv) {
 
 	freeRecord(element);
 
+  line = "1998,Canada,\"Francophones, two years and older\",Foreign television programmes,Variety and games,v21420037,1.3.3.8,1.9";
 
-	//printf("%s\n%ld\n%c\n", line, strlen(line), line[155]);
+  element = lineToRecord(line, strlen(line));
+
+	printRecord(element);
+
+	freeRecord(element);
 
 	//TODO: free memory
-	return EXIT_SUCCESS;
+	return 0;
 }
