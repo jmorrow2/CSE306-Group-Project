@@ -1,14 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "Parser.h"
 
-struct Record {
+int num_fields = 0;
 
-	float value;
-	int ref_date;
-	char *geo, *viewer, *content, *programme, *vector, *coordinate;
-
-};
 
 char* getSubstring(int start, int end, char* source) {
 	//get size for this substring
@@ -76,7 +72,7 @@ void addFieldToRecord(int count, char* field, struct Record* element) {
 
 	//value
 	else if (count == 7) {
-		//convert string to double for value
+		//convert string to float for value
 		float val;
 		sscanf(field, "%f", &val);
 
@@ -132,6 +128,8 @@ struct Record* lineToRecord(char* line, const size_t length) {
 	char* field = getSubstring(index, start, line);
 	addFieldToRecord(count, field, element);
 
+	if(!num_fields)
+		num_fields = count;
 	//return the pointer to the struct
 	return element;
 }
@@ -162,7 +160,10 @@ void printRecord(struct Record* element) {
 		element->vector, element->coordinate, element->value);
 }
 
-int main(int argc, char** argv) {
+int get_num_fields(){
+	return num_fields;
+}
+/*int main(int argc, char** argv) {
 
 	char* line = "2004,Canada,\"Francophones, two years and older\",\"Total, all television programmes, Canadian and foreign\",Social and/or recreational instruction,v21420008,1.3.1.5,0.7";
 
@@ -182,4 +183,4 @@ int main(int argc, char** argv) {
 
 	//TODO: free memory
 	return 0;
-}
+}*/

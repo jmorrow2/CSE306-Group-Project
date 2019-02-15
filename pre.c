@@ -1,13 +1,16 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "Parser.h"
 
 char _min_field[50], _max_field[50], _mean_field[50],
      _record_field[50], _record_value[50];
-int _num_of_fields, _num_of_records; 
+int _num_of_fields, _num_of_records;
+
+
 
 int main(int argc, char* argv[]){
-	
+
 int i=1;
 
 while(i<argc-1){
@@ -66,17 +69,33 @@ while(i<argc-1){
   FILE* inFile = fopen(fileName, "r");
 
   char line[1000];
-  while( fgets(line, 1000, inFile) != NULL){
+  _num_of_records = 0;
 
-	printf("%s", line);  /*Don't need the \n character in the format*/
+  while( fgets(line, 1000, inFile) != NULL){
+    if(!_num_of_records){
+      ++_num_of_records;
+      continue;
+    }
+	//printf("%s", line);  /*Don't need the \n character in the format*/
 	char* s = line;
-	
-	
-	while(*s != '\0'){
+  struct Record* element = lineToRecord(s, strlen(s));
+
+  printRecord(element); // change this to add the struct to our record
+
+
+  freeRecord(element);
+
+
+
+
+
+/*	while(*s != '\0'){
 		printf("%c", *s);
 		s++;
-	}
+	}*/
+  ++_num_of_records;
   }
 
+ printf("%d\n%d\n",_num_of_records, get_num_fields());
   return 0;
 }
