@@ -5,6 +5,8 @@
 
 int num_fields = 0;
 
+Record *head = NULL;
+Record *cur = NULL;
 
 char* getSubstring(int start, int end, char* source) {
 	//get size for this substring
@@ -135,22 +137,59 @@ struct Record* lineToRecord(char* line, const size_t length) {
 }
 
 //deallocate all the memory used for records
-void freeRecord(struct Record* element) {
+// void freeRecord(struct Record* element) {
 
-	//free all the string fields first
+// 	//free all the string fields first
 
-	free(element->geo);
-	free(element->viewer);
-	free(element->content);
-	free(element->programme);
-	free(element->vector);
-	free(element->coordinate);
+// 	free(element->geo);
+// 	free(element->viewer);
+// 	free(element->content);
+// 	free(element->programme);
+// 	free(element->vector);
+// 	free(element->coordinate);
 
 
-	//free the record itself
-	free(element);
+// 	//free the record itself
+// 	free(element);
+
+// }
+
+void addElementToList(struct Record *elem) {
+	if(head == NULL) {
+		head = elem;
+		cur = head;
+	}
+	else {
+		cur->next = elem;
+		cur = cur->next;
+	}
+}
+
+void freeAllRecords(struct Record* firstElem) {
+
+	Record *trav;
+
+	while(firstElem != NULL) {
+
+		trav = firstElem;
+		firstElem = firstElem->next;
+
+		free(trav->geo);
+		free(trav->viewer);
+		free(trav->content);
+		free(trav->programme);
+		free(trav->vector);
+		free(trav->coordinate);
+		free(trav);
+
+	}
 
 }
+
+Record *getHead() {
+	return head;
+}
+
 
 //temp function to print all the fields of a records
 void printRecord(struct Record* element) {
@@ -163,6 +202,7 @@ void printRecord(struct Record* element) {
 int get_num_fields(){
 	return num_fields;
 }
+
 /*int main(int argc, char** argv) {
 
 	char* line = "2004,Canada,\"Francophones, two years and older\",\"Total, all television programmes, Canadian and foreign\",Social and/or recreational instruction,v21420008,1.3.1.5,0.7";

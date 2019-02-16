@@ -34,9 +34,13 @@ int main(int argc, char* argv[]){
 	char* s = line;
   struct Record* element = lineToRecord(s, strlen(s));
 
-  printRecord(element); // change this to add the struct to our record
+  //printRecord(element); // change this to add the struct to our record
 
-  freeRecord(element);
+  addElementToList(element);  // still working on function
+
+  printRecord(element);
+
+  //freeRecord(element);
 
 /*	while(*s != '\0'){
 		printf("%c", *s);
@@ -44,6 +48,10 @@ int main(int argc, char* argv[]){
 	}*/
   ++_num_of_records;
   }
+
+  // printGeo(getHead()); Used only for testing
+
+  freeAllRecords(getHead());
 
   printFlags(_flags); //FOR TESTING: max number for flag is 3 (records field value) so flags < 3 will print junk
 
