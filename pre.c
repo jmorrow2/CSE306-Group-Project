@@ -229,11 +229,12 @@ int executeFlags(char*** flags){
 
 int main(int argc, char* argv[]){
 //store the flags into a 2D array of strings
-  char*** _flags = readFlags(argc, argv);
+
     if(argc==1){
       printf("%s\n","No flags provided!" );
         return 1;
     }
+    char*** _flags = readFlags(argc, argv);
     if(!_flags){
       printf("%s\n","Please provide valid flags!" );
         return 1;
@@ -242,6 +243,7 @@ int main(int argc, char* argv[]){
   char* fileName = argv[argc -1];
   if(fileName == NULL){
 	printf("%s", "ERROR, invalid file\n");
+  freeFlags(_flags);
 	return 1;
   }
 
@@ -249,6 +251,7 @@ int main(int argc, char* argv[]){
 //if file does not open, return 1
   if(inFile == NULL){
   printf("%s", "ERROR, invalid file\n");
+  freeFlags(_flags);
   return 1;
   }
 //
