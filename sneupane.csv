@@ -1,0 +1,5 @@
+DATE,UBIT,DURATION,ACTIVITY & TOOL DESCRIPTION
+2/10/2019,sneupane,2 hrs,Parsed a single line into a Record struct- spilt one line to their corresponding fields using atom and ubuntu command line; debugging using visual studio
+2/13/2019,sneupane,1 hr,Parsed the entire file to Record structs; some error handling  using atom and ubuntu command line
+2/15/2019,sneupane,1 hr,Got started with executing flags  using atom and ubuntu command line
+2/17/2019,sneupane,2 hrs,Got all of the flags to execute and print all the results on screen; some finishing details  using atom and ubuntu command line

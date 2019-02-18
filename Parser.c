@@ -3,11 +3,15 @@
 #include <string.h>
 #include "Parser.h"
 
+//num of colums in the file
 int num_fields = 0;
 
+//pointer to the head of the linked list
 Record *head = NULL;
+//pointer used for traversing
 Record *cur = NULL;
 
+//get the substring from a line
 char* getSubstring(int start, int end, char* source) {
 	//get size for this substring
 	int size = end - start;
@@ -26,6 +30,7 @@ char* getSubstring(int start, int end, char* source) {
 	return substr;
 }
 
+//find end quotes of a string within quotation marks
 int findMatchingQuote(int start, const char* source) {
 
 	while (source[start] != '\"')
@@ -83,7 +88,7 @@ void addFieldToRecord(int count, char* field, struct Record* element) {
 
 }
 
-//
+//conver each line of the file to a Record struct
 struct Record* lineToRecord(char* line, const size_t length) {
 
 	int index = 0;
@@ -136,24 +141,8 @@ struct Record* lineToRecord(char* line, const size_t length) {
 	return element;
 }
 
-//deallocate all the memory used for records
-// void freeRecord(struct Record* element) {
 
-// 	//free all the string fields first
-
-// 	free(element->geo);
-// 	free(element->viewer);
-// 	free(element->content);
-// 	free(element->programme);
-// 	free(element->vector);
-// 	free(element->coordinate);
-
-
-// 	//free the record itself
-// 	free(element);
-
-// }
-
+//add one element to the singly liked list used to store each line of the file
 void addElementToList(struct Record *elem) {
 	if(head == NULL) {
 		head = elem;
@@ -165,6 +154,7 @@ void addElementToList(struct Record *elem) {
 	}
 }
 
+//deallocate all the memory used for records
 void freeAllRecords(struct Record* firstElem) {
 
 	Record *trav;
@@ -173,34 +163,36 @@ void freeAllRecords(struct Record* firstElem) {
 
 		trav = firstElem;
 		firstElem = firstElem->next;
-
+		//free the string fields first
 		free(trav->geo);
 		free(trav->viewer);
 		free(trav->content);
 		free(trav->programme);
 		free(trav->vector);
 		free(trav->coordinate);
+		//then free the record
 		free(trav);
 
 	}
 
 }
 
+//return pointer to the first line of the file
 Record *getHead() {
 	return head;
 }
 
 
-//temp function to print all the fields of a records
+//function to print all the fields of a records
 void printRecord(struct Record* element) {
 
-	printf("%d\n%s\n%s\n%s\n%s\n%s\n%s\n%f\n\n", element->ref_date,
+	printf("%d,%s,%s,%s,%s,%s,%s,%.1f\n", element->ref_date,
 		element->geo, element->viewer, element->content, element->programme,
 		element->vector, element->coordinate, element->value);
 }
 
 int get_num_fields(){
-	return num_fields;
+	return num_fields+1;
 }
 
 /*int main(int argc, char** argv) {

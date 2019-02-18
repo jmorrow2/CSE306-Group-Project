@@ -3,9 +3,13 @@
 #include <string.h>
 #include "Flags.h"
 
-int flagCount=0;
 
-char*** readFlags(int argc, char* argv[]){    
+
+//convert the command line arguments into a 2D array of strings used for storing all the flags
+char*** readFlags(int argc, char* argv[]){
+  flagCount = 0;
+  contains_head = 0;
+
     char *** _flags = (char***) malloc(sizeof(char***)*10);
     for (int i = 0; i < 10; i++) {
         _flags[i] = (char **) malloc(sizeof(char*)*10);
@@ -25,20 +29,21 @@ char*** readFlags(int argc, char* argv[]){
             flagCount++;
         }else
         if(strcmp(argv[i], "-h")==0){
+          contains_head =1;
             strcpy(_flags[flagCount][0], "-h");
             flagCount++;
         }else
         if(strcmp(argv[i], "-max")==0){
             if((strcmp(argv[i+1],"Ref_Date")!=0) && (strcmp(argv[i+1],"Value")!=0)
                 && (strcmp(argv[i+1], "0")!=0) && (strcmp(argv[i+1], "7")!=0)) {
-                printf("%s", "MUST ENTER NUMERIC FIELD");
+                printf("%s\n", "MUST ENTER NUMERIC FIELD");
                 return NULL;
             }
             if((strcmp(argv[i+1], "Ref_Date")==0) || (strcmp(argv[i+1], "0")==0)){
                 strcpy(_flags[flagCount][0], "max");
                 strcpy(_flags[flagCount][1], "Ref_Date");
                 flagCount++;
-            } 
+            }
             if((strcmp(argv[i+1], "Value")==0) || (strcmp(argv[i+1], "7")==0)){
                 strcpy(_flags[flagCount][0], "max");
                 strcpy(_flags[flagCount][1], "Value");
@@ -49,14 +54,14 @@ char*** readFlags(int argc, char* argv[]){
         if(strcmp(argv[i], "-min")==0){
             if((strcmp(argv[i+1],"Ref_Date")!=0) && (strcmp(argv[i+1],"Value")!=0)
             && (strcmp(argv[i+1], "0")!=0) && (strcmp(argv[i+1], "7")!=0)){
-                printf("%s", "MUST ENTER NUMERIC FIELD");
+                printf("%s\n", "MUST ENTER NUMERIC FIELD");
                 return NULL;
             }
             if((strcmp(argv[i+1], "Ref_Date")==0) || (strcmp(argv[i+1], "0")==0)){
                 strcpy(_flags[flagCount][0], "min");
                 strcpy(_flags[flagCount][1], "Ref_Date");
                 flagCount++;
-            } 
+            }
             if((strcmp(argv[i+1], "Value")==0) || (strcmp(argv[i+1], "7")==0)){
                 strcpy(_flags[flagCount][0], "min");
                 strcpy(_flags[flagCount][1], "Value");
@@ -67,14 +72,14 @@ char*** readFlags(int argc, char* argv[]){
         if(strcmp(argv[i], "-mean")==0){
             if((strcmp(argv[i+1],"Ref_Date")!=0) && (strcmp(argv[i+1],"Value")!=0)
             && (strcmp(argv[i+1], "0")!=0) && (strcmp(argv[i+1], "7")!=0)){
-                printf("%s", "MUST ENTER NUMERIC FIELD");
+                printf("%s\n", "MUST ENTER NUMERIC FIELD");
                 return NULL;
             }
             if((strcmp(argv[i+1], "Ref_Date")==0) || (strcmp(argv[i+1], "0")==0)){
                 strcpy(_flags[flagCount][0], "mean");
                 strcpy(_flags[flagCount][1], "Ref_Date");
                 flagCount++;
-            } 
+            }
             if((strcmp(argv[i+1], "Value")==0) || (strcmp(argv[i+1], "7")==0)){
                 strcpy(_flags[flagCount][0], "mean");
                 strcpy(_flags[flagCount][1], "Value");
@@ -90,7 +95,7 @@ char*** readFlags(int argc, char* argv[]){
             i++;
             i++;
         }else{
-            printf("%s", "INVALID FLAG");
+            printf("%s\n", "INVALID FLAG");
             return NULL;
         }
         i++;
