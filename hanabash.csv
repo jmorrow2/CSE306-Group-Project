@@ -1,0 +1,4 @@
+DATE,UBIT,DURATION,ACTIVITY & TOOL DESCRIPTION
+14-Feb,hanabash,2 hrs,Got started on functions that would handle computations (based on flags entered)
+15-Feb,hanabash,2.5 hrs,Got each line in csv file to be stored in a linked list of Record structs; created function to free any allocated memory 
+15-Feb,hanabash,1 hr,Worked on function for linked list traversal and basic computations
